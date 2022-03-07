@@ -4,9 +4,21 @@ const { TextArea } = Input;
 
 function UploadProductPage(props) {
   const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState(0);
+  const [continent, setContinent] = useState(1);
+  const [images, setImages] = useState([]);
 
   const titleChangeHandler = (event) => {
     setTitle(event.currentTarget.value);
+  };
+
+  const descriptionChangeHandler = (event) => {
+    setDescription(event.currentTarget.value);
+  };
+
+  const priceChangeHandler = (event) => {
+    setPrice(event.currentTarget.value);
   };
 
   return (
@@ -25,11 +37,11 @@ function UploadProductPage(props) {
         <br />
         <br />
         <label>설명</label>
-        <TextArea />
+        <TextArea onChange={descriptionChangeHandler} value={description} />
         <br />
         <br />
         <label>가격($)</label>
-        <Input type='number' />
+        <Input type='number' onChange={priceChangeHandler} value={price} />
         <br />
         <br />
         <select>

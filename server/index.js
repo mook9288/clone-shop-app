@@ -40,10 +40,12 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/api/users', require('./routes/users'));
+app.use('/api/product', require('./routes/product'));
 
 //use this to show the image you have in node js server to client (react js)
 //https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
-app.use('/api/uploads', express.static('uploads'));
+//  uploads 폴더 안에 있는 정적 파일들을 /uploads 라는 경로를 이용해서 가져올 수 있다.
+app.use('/uploads', express.static('uploads'));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {

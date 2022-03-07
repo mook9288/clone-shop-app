@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Typography, Button, Form, Input } from 'antd';
+import FileUpload from '../../utils/FileUpload';
 const { TextArea } = Input;
 
 const Continents = [
@@ -12,7 +13,7 @@ const Continents = [
   { key: 7, value: 'Antarctica' },
 ];
 
-function UploadProductPage(props) {
+const UploadProductPage = (props) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);
@@ -43,6 +44,7 @@ function UploadProductPage(props) {
 
       <Form>
         {/* DropZone */}
+        <FileUpload />
 
         <br />
         <br />
@@ -71,5 +73,5 @@ function UploadProductPage(props) {
       </Form>
     </div>
   );
-}
+};
 export default UploadProductPage;

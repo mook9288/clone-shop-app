@@ -16,21 +16,24 @@ const FileUpload = (props) => {
       if (response.data.success) {
         // console.log(response.data);
         setImages([...images, response.data.filePath]);
+        props.refreshFunction([...images, response.data.filePath]);
       } else {
         alert('파일을 저장하는데 실패했습니다.');
       }
     });
   };
 
-  const deleteHandler = (img) => {
+  const deleteImageHandler = (img) => {
     const currentIndex = images.indexOf(img);
     let newImages = [...images];
     newImages.splice(currentIndex, 1);
+    console.log(newImages);
     setImages(newImages);
     props.refreshFunction(newImages);
   };
+
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <Dropzone onDrop={dropHandler}>
         {({ getRootProps, getInputProps }) => (
           <div
@@ -61,10 +64,11 @@ const FileUpload = (props) => {
         {images.map((img, index) => {
           console.log(img, images);
           return (
-            <div key={index}>
+            <div key={index} onClick={() => deleteImageHandler(img)}>
               <img
                 style={{ minWidth: '300px', width: '300px', height: '240px' }}
                 src={`http://localhost:5000/${img}`}
+                alt=''
               />
             </div>
           );

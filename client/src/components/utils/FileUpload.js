@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { Icon } from 'antd';
-import axios from 'axios';
+import Axios from 'axios';
 
 const FileUpload = (props) => {
   const [images, setImages] = useState([]);
@@ -12,7 +12,7 @@ const FileUpload = (props) => {
     };
     formData.append('file', files[0]);
 
-    axios.post('/api/product/image', formData, config).then((response) => {
+    Axios.post('/api/product/image', formData, config).then((response) => {
       if (response.data.success) {
         // console.log(response.data);
         setImages([...images, response.data.filePath]);

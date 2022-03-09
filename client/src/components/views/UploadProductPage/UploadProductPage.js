@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Typography, Button, Form, Input } from 'antd';
 import FileUpload from '../../utils/FileUpload';
 const { TextArea } = Input;
@@ -40,13 +41,41 @@ const UploadProductPage = (props) => {
     setImages(newImg);
   };
 
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+    if (!title || !description || !price || !continent || images.length === 0) {
+      return alert(' 모든 값을 넣어주셔야 합니다.');
+    }
+
+    // 서버에 채운 값들을 request로 보낸다.
+    const body = {
+      //로그인 된 사람의 ID
+      writer: props.user.userData._id,
+      title: title,
+      description: description,
+      price: price,
+      images: images,
+      continents: continent,
+    };
+
+    axios.post('/api/product', body).then((response) => {
+      if (response.data.success) {
+        alert('상품 업로드에 성공 했습니다.');
+        props.history.push('/');
+      } else {
+        alert('상품 업로드에 실패 했습니다.');
+      }
+    });
+  };
+
   return (
     <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <h2> 여행 상품 업로드</h2>
       </div>
 
-      <Form>
+      <Form onSubmit={submitHandler}>
         {/* DropZone */}
         <FileUpload refreshFunction={updateImages} />
 

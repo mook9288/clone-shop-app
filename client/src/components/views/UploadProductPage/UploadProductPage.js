@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Typography, Button, Form, Input } from 'antd';
+import { Form, Input } from 'antd';
 import FileUpload from '../../utils/FileUpload';
 const { TextArea } = Input;
 
@@ -45,7 +45,7 @@ const UploadProductPage = (props) => {
     event.preventDefault();
 
     if (!title || !description || !price || !continent || images.length === 0) {
-      return alert(' 모든 값을 넣어주셔야 합니다.');
+      return alert('모든 값을 넣어주셔야 합니다.');
     }
 
     // 서버에 채운 값들을 request로 보낸다.

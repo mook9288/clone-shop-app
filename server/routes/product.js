@@ -44,4 +44,20 @@ router.post('/', (req, res) => {
   });
 });
 
+router.post('/products', (req, res) => {
+  // product collectrion에 들어 있는 모든 상품 정보를 가져오기
+  Product.find()
+    .populate('writer')
+    .exec((err, productInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json({
+        success: true,
+        productInfo,
+      });
+    });
+  // .find(): Object 형식으로 원하는 조건을 넣어준다.
+  // .populate("writer") 상품을 등록한 사람에 대한 모든 정보를 가져온다.
+  // .exec((err, productInfo) =>{})
+});
+
 module.exports = router;

@@ -58,6 +58,7 @@ router.post('/products', (req, res) => {
       return res.status(200).json({
         success: true,
         productInfo,
+        postSize: productInfo.length,
       });
     });
   // .find(): Object 형식으로 원하는 조건을 넣어준다.

@@ -37,28 +37,28 @@ const price = [
   },
   {
     _id: 1,
-    name: '$0 to $199',
-    array: [0, 199],
+    name: '$0 to $50',
+    array: [0, 50],
   },
   {
     _id: 2,
-    name: '$200 to $249',
-    array: [200, 249],
+    name: '$51 to $100',
+    array: [51, 100],
   },
   {
     _id: 3,
-    name: '$250 to $279',
-    array: [250, 279],
+    name: '$101 to $150',
+    array: [101, 150],
   },
   {
     _id: 4,
-    name: '$280 to $299',
-    array: [280, 299],
+    name: '$151 to $200',
+    array: [151, 200],
   },
   {
     _id: 5,
-    name: 'More than $300',
-    array: [300, 1500000],
+    name: 'More than $201',
+    array: [201, 1500000],
   },
 ];
 

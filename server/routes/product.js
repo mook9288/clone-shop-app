@@ -52,7 +52,16 @@ router.post('/products', (req, res) => {
 
   for (let key in req.body.filters) {
     if (req.body.filters[key].length > 0) {
-      findArgs[key] = req.body.filters[key];
+      if (key === 'price') {
+        findArgs[key] = {
+          // mongoDB에서 사용하는.. Greater than equal
+          $gte: req.body.filters[key][0],
+          // mongoDB에서 사용하는.. Less than equal
+          $lte: req.body.filters[key][1],
+        };
+      } else {
+        findArgs[key] = req.body.filters[key];
+      }
     }
   }
 

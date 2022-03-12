@@ -52,6 +52,18 @@ function LandingPage() {
     setSkip(0);
   };
 
+  const handlePrice = (value) => {
+    const data = price;
+    let array = [];
+
+    for (let key in data) {
+      if (data[key]._id === parseInt(value, 10)) {
+        array = data[key].array;
+      }
+    }
+    return array;
+  };
+
   const handleFilters = (filtering, category) => {
     // filtering: 선택된 값 id
     // category: 선택한 카테고리
@@ -59,8 +71,10 @@ function LandingPage() {
 
     newFilters[category] = filtering;
 
-    console.log('filtering', filtering);
-
+    if (category === 'price') {
+      let priceValues = handlePrice(filtering);
+      newFilters[category] = priceValues;
+    }
     showFilteredResults(newFilters);
     setFilters(newFilters);
   };
@@ -111,7 +125,10 @@ function LandingPage() {
         </Col>
         <Col lg={12} xs={24}>
           {/* RadioBox */}
-          <Radiobox />
+          <Radiobox
+            list={price}
+            handleFilters={(filtering) => handleFilters(filtering, 'price')}
+          />
         </Col>
       </Row>
 

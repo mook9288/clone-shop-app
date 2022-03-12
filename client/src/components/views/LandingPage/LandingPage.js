@@ -6,8 +6,12 @@ import ImageSlider from '../../utils/ImageSlider';
 
 function LandingPage() {
   const [products, setProducts] = useState([]);
+  const [skip, setSkip] = useState(0);
+  const [limit, setLimit] = useState(3);
+
   useEffect(() => {
-    axios.post('/api/product/products').then((response) => {
+    let body = { skip: skip, limit: limit };
+    axios.post('/api/product/products', body).then((response) => {
       if (response.data.success) {
         console.log('상품 노출', response.data);
         setProducts(response.data.productInfo);
@@ -33,6 +37,10 @@ function LandingPage() {
     );
   });
 
+  const loadMoreHanlder = () => {
+    console.log('상품카드 더 불러오기');
+  };
+
   return (
     <div style={{ width: '75%', margin: '3rem auto' }}>
       <div style={{ textAlign: 'center' }}>
@@ -44,7 +52,7 @@ function LandingPage() {
       <Row gutter={[16, 16]}>{renderCards}</Row>
 
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <button>더보기</button>
+        <button onClick={loadMoreHanlder}>더보기</button>
       </div>
     </div>
   );

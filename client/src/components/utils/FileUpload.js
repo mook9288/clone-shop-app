@@ -4,6 +4,8 @@ import { Icon } from 'antd';
 import Axios from 'axios';
 
 const FileUpload = (props) => {
+  const BASE_URL = process.env.REACT_APP_API_HOST;
+
   const [images, setImages] = useState([]);
   const dropHandler = (files) => {
     let formData = new FormData();
@@ -66,7 +68,7 @@ const FileUpload = (props) => {
             <div key={index} onClick={() => deleteImageHandler(img)}>
               <img
                 style={{ minWidth: '300px', width: '300px', height: '240px' }}
-                src={`http://localhost:5000/${img}`}
+                src={`${BASE_URL}/${img}`}
                 alt=''
               />
             </div>

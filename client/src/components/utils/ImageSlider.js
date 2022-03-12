@@ -2,6 +2,8 @@ import React from 'react';
 import { Carousel } from 'antd';
 
 function ImageSlider(props) {
+  const BASE_URL = process.env.REACT_APP_API_HOST;
+
   return (
     <div>
       <Carousel autoplay>
@@ -9,7 +11,7 @@ function ImageSlider(props) {
           <div key={index}>
             <img
               style={{ width: '100%', maxHeight: '150px' }}
-              src={`http://localhost:5000/${image}`}
+              src={`${BASE_URL}/${image}`}
               alt='상품 이미지'
             />
           </div>

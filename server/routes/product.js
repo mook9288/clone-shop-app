@@ -48,8 +48,15 @@ router.post('/products', (req, res) => {
   // product collectrion에 들어 있는 모든 상품 정보를 가져오기
   let limit = req.body.limit ? parseInt(req.body.limit) : 20; // false의 수는 마음대로
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+  let findArgs = {}; // filtering을 위한 객체 필요
 
-  Product.find()
+  for (let key in req.body.filters) {
+    if (req.body.filters[key].length > 0) {
+      findArgs[key] = req.body.filters[key];
+    }
+  }
+
+  Product.find(findArgs)
     .populate('writer')
     .skip(skip)
     .limit(limit)

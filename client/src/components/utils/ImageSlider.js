@@ -2,7 +2,8 @@ import React from 'react';
 import { Carousel } from 'antd';
 
 function ImageSlider(props) {
-  const BASE_URL = process.env.REACT_APP_API_HOST;
+  // const BASE_URL = process.env.REACT_APP_API_HOST;
+  const BASE_URL = 'http://localhost:5000';
 
   return (
     <div>

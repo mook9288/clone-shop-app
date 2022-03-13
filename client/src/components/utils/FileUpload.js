@@ -4,7 +4,8 @@ import { Icon } from 'antd';
 import Axios from 'axios';
 
 const FileUpload = (props) => {
-  const BASE_URL = process.env.REACT_APP_API_HOST;
+  // const BASE_URL = process.env.REACT_APP_API_HOST;
+  const BASE_URL = 'http://localhost:5000';
 
   const [images, setImages] = useState([]);
   const dropHandler = (files) => {

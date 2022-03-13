@@ -4,6 +4,7 @@ import 'core-js';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'react-image-gallery/styles/css/image-gallery.css';
 import './index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';

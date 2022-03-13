@@ -48,6 +48,8 @@ router.post('/products', (req, res) => {
   // product collectrion에 들어 있는 모든 상품 정보를 가져오기
   let limit = req.body.limit ? parseInt(req.body.limit) : 20; // false의 수는 마음대로
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+  let term = req.body.searchTerm; // 검색어
+
   let findArgs = {}; // filtering을 위한 객체 필요
 
   for (let key in req.body.filters) {
@@ -65,21 +67,38 @@ router.post('/products', (req, res) => {
     }
   }
 
-  Product.find(findArgs)
-    .populate('writer')
-    .skip(skip)
-    .limit(limit)
-    .exec((err, productInfo) => {
-      if (err) return res.status(400).json({ success: false, err });
-      return res.status(200).json({
-        success: true,
-        productInfo,
-        postSize: productInfo.length,
+  if (term) {
+    // $text, $search: mongoDB에서 제공
+    Product.find(findArgs)
+      .find({ $text: { $search: term } })
+      .populate('writer')
+      .skip(skip)
+      .limit(limit)
+      .exec((err, productInfo) => {
+        if (err) return res.status(400).json({ success: false, err });
+        return res.status(200).json({
+          success: true,
+          productInfo,
+          postSize: productInfo.length,
+        });
       });
-    });
-  // .find(): Object 형식으로 원하는 조건을 넣어준다.
-  // .populate("writer") 상품을 등록한 사람에 대한 모든 정보를 가져온다.
-  // .exec((err, productInfo) =>{})
+  } else {
+    Product.find(findArgs)
+      .populate('writer')
+      .skip(skip)
+      .limit(limit)
+      .exec((err, productInfo) => {
+        if (err) return res.status(400).json({ success: false, err });
+        return res.status(200).json({
+          success: true,
+          productInfo,
+          postSize: productInfo.length,
+        });
+      });
+    // .find(): Object 형식으로 원하는 조건을 넣어준다.
+    // .populate("writer") 상품을 등록한 사람에 대한 모든 정보를 가져온다.
+    // .exec((err, productInfo) =>{})
+  }
 });
 
 module.exports = router;

@@ -39,6 +39,7 @@ const productSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+// 검색시, 중점이 되는 초점 설정
 productSchema.index(
   {
     title: 'text',

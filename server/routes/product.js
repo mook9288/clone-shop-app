@@ -107,12 +107,22 @@ router.get('/products_by_id', (req, res) => {
   // post를 이용해 client에서 값을 가져올 때는 req.body를 이용
   // query를 이용해서 가져올 때는 req.query를 이용
   let productIds = req.query.id;
+  let type = req.query.type;
 
+  if (type === 'array') {
+    // productIds를 배열 변경
+    let ids = req.query.id.split(',');
+    productIds = ids.map((item) => {
+      return item;
+    });
+  }
+
+  // $in: mongoDB제공. 동일한 필드에 대해 동등성 검사를 수행
   Product.find({ _id: { $in: productIds } })
     .populate('writer')
     .exec((err, product) => {
       if (err) return res.status(400).send(err);
-      return res.status(200).send({
+      return res.status(200).json({
         success: true,
         product,
       });

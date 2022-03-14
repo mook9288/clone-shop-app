@@ -5,6 +5,7 @@ import {
   AUTH_USER,
   LOGOUT_USER,
   ADD_TO_CART,
+  GET_CART_ITEMS,
 } from './types';
 import { USER_SERVER } from '../components/Config.js';
 
@@ -62,6 +63,35 @@ export function addToCart(id) {
 
   return {
     type: ADD_TO_CART,
+    payload: request,
+  };
+}
+
+export function getCartItems(cartItems, userCart) {
+  // cartItems: cart에 담긴 상품id 배열
+  // userCart: Redux User의 cart에 담긴 상품 정보
+
+  // .get(`/api/product/products_by_id?id=${cartItems}&type=array`)
+  // 제품 상세 페이지에서는 해당 제품 1개만 가져오기 때문에 type=single
+  // 카트에서는 여러개를 가져오기 때문에 type=array
+  const request = axios
+    .get(`/api/product/products_by_id?id=${cartItems}&type=array`)
+    .then((response) => {
+      // CartItem들에 해당하는 정보들을 Product Collection에서 가져온 후에 Quantity 정보를 넣어 준다.
+      userCart.forEach((cartItem) => {
+        // response 상품의 정보
+        response.data.product.forEach((productDetail, index) => {
+          if (cartItem.id === productDetail._id) {
+            response.data.product[index].quantity = cartItem.quantity;
+          }
+        });
+        console.log(response.data.product);
+      });
+      return response.data;
+    });
+
+  return {
+    type: GET_CART_ITEMS,
     payload: request,
   };
 }

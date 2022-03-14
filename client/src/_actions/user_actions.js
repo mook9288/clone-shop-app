@@ -80,12 +80,11 @@ export function getCartItems(cartItems, userCart) {
       // CartItem들에 해당하는 정보들을 Product Collection에서 가져온 후에 Quantity 정보를 넣어 준다.
       userCart.forEach((cartItem) => {
         // response 상품의 정보
-        response.data.product.forEach((productDetail, index) => {
+        response.data.forEach((productDetail, index) => {
           if (cartItem.id === productDetail._id) {
-            response.data.product[index].quantity = cartItem.quantity;
+            response.data[index].quantity = cartItem.quantity;
           }
         });
-        console.log(response.data.product);
       });
       return response.data;
     });

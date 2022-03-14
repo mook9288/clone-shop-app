@@ -29,7 +29,6 @@ const FileUpload = (props) => {
     const currentIndex = images.indexOf(img);
     let newImages = [...images];
     newImages.splice(currentIndex, 1);
-    console.log(newImages);
     setImages(newImages);
     props.refreshFunction(newImages);
   };
@@ -63,18 +62,15 @@ const FileUpload = (props) => {
           overflowX: 'scroll',
         }}
       >
-        {images.map((img, index) => {
-          console.log(img, images);
-          return (
-            <div key={index} onClick={() => deleteImageHandler(img)}>
-              <img
-                style={{ minWidth: '300px', width: '300px', height: '240px' }}
-                src={`${BASE_URL}/${img}`}
-                alt=''
-              />
-            </div>
-          );
-        })}
+        {images.map((img, index) => (
+          <div key={index} onClick={() => deleteImageHandler(img)}>
+            <img
+              style={{ minWidth: '300px', width: '300px', height: '240px' }}
+              src={`${BASE_URL}/${img}`}
+              alt=''
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

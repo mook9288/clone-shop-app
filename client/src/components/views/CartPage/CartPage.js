@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getCartItems } from '../../../_actions/user_actions';
 import UserCardBlock from './Sections/UserCardBlock';
@@ -6,6 +6,8 @@ import UserCardBlock from './Sections/UserCardBlock';
 function CartPage(props) {
   const dispatch = useDispatch();
   const propsUserData = props.user.userData;
+  const [total, setTotal] = useState(0);
+  const [showTotal, setShowTotal] = useState(false);
 
   useEffect(() => {
     let cartItems = []; // cart에 담긴 상품id 배열
@@ -16,10 +18,25 @@ function CartPage(props) {
           cartItems.push(item.id);
         });
 
-        dispatch(getCartItems(cartItems, propsUserData.cart));
+        dispatch(getCartItems(cartItems, propsUserData.cart)).then(
+          (response) => {
+            calculateTotal(response.payload);
+          }
+        );
       }
     }
   }, [propsUserData]);
+
+  let calculateTotal = (cartDetail) => {
+    let total = 0;
+
+    cartDetail.map((item) => {
+      total += parseInt(item.price, 10) * item.quantity;
+    });
+
+    setTotal(total);
+    setShowTotal(true);
+  };
 
   return (
     <div style={{ width: '85%', margin: '3rem auto' }}>
@@ -28,6 +45,15 @@ function CartPage(props) {
       <div>
         <UserCardBlock products={props.user.cartDetail} />
       </div>
+
+      {showTotal && (
+        <div style={{ marginTop: '3rem' }}>
+          <h2>
+            Total Amount: {'$'}
+            {total}
+          </h2>
+        </div>
+      )}
     </div>
   );
 }

@@ -6,8 +6,9 @@ import {
   LOGOUT_USER,
   ADD_TO_CART,
   GET_CART_ITEMS,
+  REMOVE_CART_ITEM,
 } from './types';
-import { USER_SERVER } from '../components/Config.js';
+import { USER_SERVER, PRODUCT_SERVER } from '../components/Config.js';
 
 export function registerUser(dataToSubmit) {
   const request = axios
@@ -71,11 +72,11 @@ export function getCartItems(cartItems, userCart) {
   // cartItems: cart에 담긴 상품id 배열
   // userCart: Redux User의 cart에 담긴 상품 정보
 
-  // .get(`/api/product/products_by_id?id=${cartItems}&type=array`)
+  // .get(`${PRODUCT_SERVER}/products_by_id?id=${cartItems}&type=array`)
   // 제품 상세 페이지에서는 해당 제품 1개만 가져오기 때문에 type=single
   // 카트에서는 여러개를 가져오기 때문에 type=array
   const request = axios
-    .get(`/api/product/products_by_id?id=${cartItems}&type=array`)
+    .get(`${PRODUCT_SERVER}/products_by_id?id=${cartItems}&type=array`)
     .then((response) => {
       // CartItem들에 해당하는 정보들을 Product Collection에서 가져온 후에 Quantity 정보를 넣어 준다.
       userCart.forEach((cartItem) => {
@@ -91,6 +92,28 @@ export function getCartItems(cartItems, userCart) {
 
   return {
     type: GET_CART_ITEMS,
+    payload: request,
+  };
+}
+
+export function removeCartItem(productId) {
+  console.log('productId', `${USER_SERVER}/remove_from_cart`);
+  const request = axios
+    .get(`${USER_SERVER}/remove_from_cart?id=${productId}`)
+    .then((response) => {
+      //productInfo, cart 정보를 조합해서 CartDetail을 만든다.
+      response.data.cart.forEach((item) => {
+        response.data.productInfo.forEach((product, index) => {
+          if (item.id === product._id) {
+            response.data.productInfo[index].quantity = item.quantity;
+          }
+        });
+      });
+      return response.data;
+    });
+
+  return {
+    type: REMOVE_CART_ITEM,
     payload: request,
   };
 }

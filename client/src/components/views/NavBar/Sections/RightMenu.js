@@ -43,7 +43,7 @@ function RightMenu(props) {
             style={{ color: '#667777' }}
           >
             <Badge
-              count={3}
+              count={user.userData && user.userData.cart.length}
               style={{
                 right: 10,
               }}
